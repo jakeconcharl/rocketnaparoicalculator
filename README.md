@@ -7,6 +7,7 @@ Client-side ROI calculator built from the public Notion example for the NAPA met
 - A standalone landing page calculator at the site root.
 - An embeddable widget script at `dist/embed.js`.
 - Shared calculation logic so both experiences use the same ROI math.
+- Public users only edit call volume and platform pricing inputs.
 
 ## Local development
 
@@ -69,14 +70,22 @@ If you want stronger style isolation, embed the standalone page inside an iframe
 
 ## Calculation assumptions
 
-The current model mirrors the public Notion example values:
+The current model now exposes only these editable inputs:
+
+- `Legitimate Calls`
+- `Filtered Spam Calls`
+- `RocketLevel AI Plan` with `Growth ($499)`, `Scale ($800)`, and `Pro ($1,200)`
+- `RocketLevel PBX Users` at `$29/user` with a minimum of `5` users
+
+The rest of the model continues to mirror the public Notion example values:
 
 - `Missed Calls Recovered = (Legitimate Calls + Filtered Spam Calls) * Recovered Rate`
 - `Estimated Jobs Saved = Missed Calls Recovered * Job Loss Rate`
 - `Revenue Recovered = Estimated Jobs Saved * Average Job Value`
 - `Labor Savings = Labor Hours Saved * Hourly Wage`
-- `Staffing Savings = (FTE Savings * Annual Employee Cost) / 12`
+- `Staffing Savings = fixed monthly baseline`
 - `Total Impact = Revenue Recovered + Labor Savings + Staffing Savings`
+- `PBX Plan Cost = max(Users, 5) * 29`
 - `Net ROI = Total Impact - (AI Plan Cost + PBX Plan Cost)`
 
 ## Next refinement
