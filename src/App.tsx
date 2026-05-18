@@ -9,6 +9,7 @@ import {
   type AiPlanKey,
   type CalculatorInputs
 } from "./calculator";
+import rocketLevelLogo from "../rllogowhite.svg";
 
 type AppProps = {
   mode: "standalone" | "embed";
@@ -24,14 +25,6 @@ const primaryNav = [
   { label: "Technology", href: "#impact" },
   { label: "Who We Help", href: "#assumptions" },
   { label: "Company", href: "#footer" }
-];
-
-const footerSolutions = [
-  "Digital Marketing",
-  "Outbound Sales",
-  "Inbound Sales",
-  "Managed Services",
-  "Commercial Systems"
 ];
 
 export function App({ mode, config }: AppProps) {
@@ -65,7 +58,7 @@ export function App({ mode, config }: AppProps) {
         <header className="site-header">
           <div className="site-header__inner">
             <a className="site-brand" href="https://rocketlevel.com/">
-              <RocketLevelLogo />
+              <img className="rocketlevel-logo" src={rocketLevelLogo} alt="RocketLevel" />
               <span className="site-brand__copy">
                 <strong>NAPA ROI Calculator</strong>
                 <em>Revenue recovery dashboard</em>
@@ -110,18 +103,10 @@ export function App({ mode, config }: AppProps) {
 
           <div className="dashboard-layout">
           <div className="dashboard-main">
-            {!isEmbed ? (
-              <section className="dashboard-intro">
-                <p className="eyebrow">Revenue Recovery Model</p>
-                <h1>{title}</h1>
-                <p className="subtitle">{subtitle}</p>
-              </section>
-            ) : null}
-
             <div className="controls-grid">
               <section className="group-card">
                 <h2>Call Volume</h2>
-                <div className="field-grid">
+                <div className="field-stack">
                   <label className="field">
                     <span>Legitimate Calls</span>
                     <div className="input-wrap">
@@ -156,12 +141,12 @@ export function App({ mode, config }: AppProps) {
 
               <section className="group-card">
                 <h2>Platform Cost</h2>
-                <div className="field-grid">
-                <label className="field">
-                  <span>AI Plan</span>
-                  <div className="input-wrap input-wrap--select">
-                    <select
-                      value={inputs.aiPlan}
+                <div className="field-stack">
+                  <label className="field">
+                    <span>AI Plan</span>
+                    <div className="input-wrap input-wrap--select">
+                      <select
+                        value={inputs.aiPlan}
                         onChange={(event) => updatePlan(event.target.value)}
                       >
                         {Object.entries(AI_PLANS).map(([key, plan]) => (
@@ -173,47 +158,52 @@ export function App({ mode, config }: AppProps) {
                     </div>
                   </label>
 
-                <label className="field">
-                  <span>PBX Users</span>
-                  <div className="input-wrap">
-                    <input
-                      type="number"
+                  <label className="field">
+                    <span>PBX Users</span>
+                    <div className="input-wrap">
+                      <input
+                        type="number"
                         step={1}
                         min={defaultAssumptions.pbxMinimumUsers}
                         value={inputs.pbxUsers}
                         onChange={(event) =>
-                        updateNumberInput("pbxUsers", event.target.value)
-                      }
-                    />
-                  </div>
-                </label>
-              </div>
-              <p className="helper-copy">
-                Billed at {formatCurrency(defaultAssumptions.pbxSeatCost)}/user with a{" "}
-                {defaultAssumptions.pbxMinimumUsers}-user minimum.
-              </p>
-            </section>
+                          updateNumberInput("pbxUsers", event.target.value)
+                        }
+                      />
+                    </div>
+                  </label>
+                </div>
+                <p className="helper-copy">
+                  Billed at {formatCurrency(defaultAssumptions.pbxSeatCost)}/user with a{" "}
+                  {defaultAssumptions.pbxMinimumUsers}-user minimum.
+                </p>
+              </section>
 
               <section className="group-card">
                 <h2>Revenue + Labor</h2>
                 <div className="assumptions-grid">
                   <AssumptionCard
-                    label="Average Job Value"
-                    value={formatCurrency(defaultAssumptions.averageJobValue)}
+                    label="Revenue Recovered"
+                    value={formatCurrency(outputs.revenueRecovered)}
                   />
                   <AssumptionCard
-                    label="Labor Hours Saved"
-                    value={formatNumber(defaultAssumptions.laborHoursSaved)}
-                  />
-                  <AssumptionCard
-                    label="Hourly Wage"
-                    value={formatCurrency(defaultAssumptions.hourlyWage)}
+                    label="Labor Savings"
+                    value={formatCurrency(outputs.laborSavings)}
                   />
                   <AssumptionCard
                     label="Staffing Savings"
-                    value={formatCurrency(defaultAssumptions.staffingMonthlySavings)}
+                    value={formatCurrency(outputs.staffingLaborSavings)}
+                  />
+                  <AssumptionCard
+                    label="Total Monthly Impact"
+                    value={formatCurrency(outputs.totalImpact)}
                   />
                 </div>
+                <p className="helper-copy">
+                  Based on the Notion model: recovered jobs x {formatCurrency(defaultAssumptions.averageJobValue)}
+                  , plus {formatNumber(defaultAssumptions.laborHoursSaved)} labor hours at{" "}
+                  {formatCurrency(defaultAssumptions.hourlyWage)} and fixed staffing savings.
+                </p>
               </section>
             </div>
           </div>
@@ -227,18 +217,6 @@ export function App({ mode, config }: AppProps) {
               <ResultCard
                 label="Estimated Jobs Saved"
                 value={formatNumber(outputs.estimatedJobsLost)}
-              />
-              <ResultCard
-                label="Revenue Recovered"
-                value={formatCurrency(outputs.revenueRecovered)}
-              />
-              <ResultCard
-                label="Labor Savings"
-                value={formatCurrency(outputs.laborSavings)}
-              />
-              <ResultCard
-                label="Staffing Savings"
-                value={formatCurrency(outputs.staffingLaborSavings)}
               />
               <ResultCard
                 label="AI Plan Cost"
@@ -299,14 +277,5 @@ function AssumptionCard({ label, value }: AssumptionCardProps) {
       <span>{label}</span>
       <strong>{value}</strong>
     </article>
-  );
-}
-
-function RocketLevelLogo() {
-  return (
-    <span className="rocketlevel-logo" aria-label="RocketLevel">
-      <span className="rocketlevel-logo__mark" />
-      <span className="rocketlevel-logo__word">ROCKETLEVEL</span>
-    </span>
   );
 }

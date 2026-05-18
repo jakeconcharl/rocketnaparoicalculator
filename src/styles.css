@@ -90,47 +90,10 @@ select {
 }
 
 .rocketlevel-logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: #ffffff;
-}
-
-.rocketlevel-logo__mark {
-  position: relative;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #ffffff;
+  display: block;
+  width: 170px;
+  height: auto;
   flex: 0 0 auto;
-}
-
-.rocketlevel-logo__mark::before {
-  content: "";
-  position: absolute;
-  inset: 6px 8px 6px 6px;
-  border-radius: 50%;
-  background: var(--bg-deep);
-}
-
-.rocketlevel-logo__mark::after {
-  content: "";
-  position: absolute;
-  right: -1px;
-  bottom: 5px;
-  width: 15px;
-  height: 15px;
-  border-radius: 0 0 12px 0;
-  background: #ffffff;
-  transform: rotate(45deg);
-}
-
-.rocketlevel-logo__word {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  line-height: 1;
 }
 
 .site-brand__copy {
@@ -245,7 +208,6 @@ select {
   gap: 12px;
 }
 
-.dashboard-intro,
 .group-card,
 .result-card {
   background: var(--bg-card);
@@ -254,39 +216,10 @@ select {
   box-shadow: 0 12px 30px rgba(22, 41, 74, 0.12);
 }
 
-.dashboard-intro {
-  padding: 16px 18px;
-}
-
-.eyebrow {
-  margin: 0 0 8px;
-  color: var(--brand-teal);
-  font-family: "Space Grotesk", sans-serif;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
 h1,
 h2,
 strong {
   font-family: "Space Grotesk", sans-serif;
-}
-
-h1 {
-  margin: 0;
-  color: var(--text-dark);
-  font-size: clamp(2rem, 3.6vw, 3.2rem);
-  line-height: 0.96;
-  letter-spacing: -0.04em;
-}
-
-.subtitle {
-  margin: 10px 0 0;
-  max-width: 56rem;
-  color: #4a617c;
-  font-size: 0.98rem;
 }
 
 .controls-grid {
@@ -297,6 +230,8 @@ h1 {
 
 .group-card {
   padding: 16px;
+  display: grid;
+  align-content: start;
 }
 
 .group-card h2 {
@@ -310,6 +245,11 @@ h1 {
 .result-card-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.field-stack {
+  display: grid;
   gap: 12px;
 }
 
@@ -331,14 +271,15 @@ h1 {
 .input-wrap input,
 .input-wrap select {
   width: 100%;
-  min-height: 50px;
+  min-height: 48px;
   border: 1px solid rgba(19, 34, 56, 0.12);
   border-radius: 14px;
-  padding: 11px 14px;
+  padding: 10px 14px;
   background: #f6f9fd;
   color: var(--text-dark);
   appearance: none;
 }
+
 
 .input-wrap--select::after {
   content: "▾";
@@ -414,10 +355,6 @@ h1 {
   grid-template-columns: 1fr;
 }
 
-.app-shell--embed .dashboard-intro {
-  display: none;
-}
-
 @media (max-width: 1260px) {
   .site-nav {
     gap: 14px;
@@ -445,6 +382,11 @@ h1 {
   .field-grid,
   .assumptions-grid {
     grid-template-columns: 1fr;
+  }
+
+  .field--row {
+    grid-template-columns: 1fr;
+    gap: 6px;
   }
 
   .page-content {
