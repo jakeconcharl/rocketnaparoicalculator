@@ -225,31 +225,6 @@ export function App({ mode, config }: AppProps) {
               />
             </div>
 
-            <div className="formula-card" id="assumptions">
-              <h2>Model Notes</h2>
-              <p>
-                Web users can only edit call volume and platform pricing. Revenue
-                recovery, labor savings, and staffing savings still follow the NAPA
-                model assumptions behind the scenes.
-              </p>
-              <ul className="assumption-list">
-                <li>
-                  Missed call recovery rate: {defaultAssumptions.missedCallsRecoveredRate}%
-                </li>
-                <li>Estimated job loss rate: {defaultAssumptions.jobLossRate}%</li>
-                <li>
-                  Average job value: {formatCurrency(defaultAssumptions.averageJobValue)}
-                </li>
-                <li>
-                  Labor savings baseline: {defaultAssumptions.laborHoursSaved} hours at{" "}
-                  {formatCurrency(defaultAssumptions.hourlyWage)}/hour
-                </li>
-                <li>
-                  Staffing savings baseline:{" "}
-                  {formatCurrency(defaultAssumptions.staffingMonthlySavings)}/month
-                </li>
-              </ul>
-            </div>
           </aside>
         </section>
 
