@@ -65,10 +65,10 @@ export function App({ mode, config }: AppProps) {
         <header className="site-header">
           <div className="site-header__inner">
             <a className="site-brand" href="https://rocketlevel.com/">
-              <span className="site-brand__mark">RL</span>
+              <RocketLevelLogo />
               <span className="site-brand__copy">
-                <strong>RocketLevel</strong>
-                <em>NAPA ROI Calculator</em>
+                <strong>NAPA ROI Calculator</strong>
+                <em>Revenue recovery dashboard</em>
               </span>
             </a>
 
@@ -88,112 +88,137 @@ export function App({ mode, config }: AppProps) {
       ) : null}
 
       <div className="page-content">
-        <section className="hero-panel">
-          <div className="hero-copy">
-            <p className="eyebrow">{isEmbed ? "Embedded ROI Widget" : "Revenue Recovery Model"}</p>
-            <h1>{title}</h1>
-            <p className="subtitle">{subtitle}</p>
+        <section className="dashboard-shell" id="calculator">
+          <div className="dashboard-kpis">
+            <MetricPanel
+              label="Net Monthly ROI"
+              value={formatCurrency(outputs.netRoi)}
+              detail={`${formatNumber(outputs.roiMultiple)}x return on monthly platform spend`}
+              tone="primary"
+            />
+            <MetricPanel
+              label="Total Monthly Impact"
+              value={formatCurrency(outputs.totalImpact)}
+              detail="Recovered revenue plus labor and staffing savings"
+            />
+            <MetricPanel
+              label="Total Platform Cost"
+              value={formatCurrency(outputs.monthlySoftwareCost)}
+              detail={`${AI_PLANS[inputs.aiPlan].label} plan + PBX for ${outputs.billablePbxUsers} users`}
+            />
           </div>
 
-          <div className="hero-metric">
-            <span>Net Monthly ROI</span>
-            <strong>{formatCurrency(outputs.netRoi)}</strong>
-            <p>{formatNumber(outputs.roiMultiple)}x return on monthly platform spend</p>
-            <div className="hero-cost-card">
-              <span>Total Platform Cost</span>
-              <strong>{formatCurrency(outputs.monthlySoftwareCost)}</strong>
-              <p>
-                {AI_PLANS[inputs.aiPlan].label} plan + PBX for {outputs.billablePbxUsers} users
-              </p>
-            </div>
-          </div>
-        </section>
+          <div className="dashboard-layout">
+          <div className="dashboard-main">
+            {!isEmbed ? (
+              <section className="dashboard-intro">
+                <p className="eyebrow">Revenue Recovery Model</p>
+                <h1>{title}</h1>
+                <p className="subtitle">{subtitle}</p>
+              </section>
+            ) : null}
 
-        <section className="content-grid" id="calculator">
-          <div className="input-panel">
-            <section className="group-card">
-              <h2>Call Volume</h2>
-              <div className="field-grid">
-                <label className="field">
-                  <span>Legitimate Calls</span>
-                  <div className="input-wrap">
-                    <input
-                      type="number"
-                      step={100}
-                      min={0}
-                      value={inputs.legitimateCalls}
-                      onChange={(event) =>
-                        updateNumberInput("legitimateCalls", event.target.value)
-                      }
-                    />
-                  </div>
-                </label>
+            <div className="controls-grid">
+              <section className="group-card">
+                <h2>Call Volume</h2>
+                <div className="field-grid">
+                  <label className="field">
+                    <span>Legitimate Calls</span>
+                    <div className="input-wrap">
+                      <input
+                        type="number"
+                        step={100}
+                        min={0}
+                        value={inputs.legitimateCalls}
+                        onChange={(event) =>
+                          updateNumberInput("legitimateCalls", event.target.value)
+                        }
+                      />
+                    </div>
+                  </label>
 
-                <label className="field">
-                  <span>Filtered Spam Calls</span>
-                  <div className="input-wrap">
-                    <input
-                      type="number"
-                      step={50}
-                      min={0}
-                      value={inputs.filteredSpamCalls}
-                      onChange={(event) =>
-                        updateNumberInput("filteredSpamCalls", event.target.value)
-                      }
-                    />
-                  </div>
-                </label>
-              </div>
-            </section>
+                  <label className="field">
+                    <span>Filtered Spam Calls</span>
+                    <div className="input-wrap">
+                      <input
+                        type="number"
+                        step={50}
+                        min={0}
+                        value={inputs.filteredSpamCalls}
+                        onChange={(event) =>
+                          updateNumberInput("filteredSpamCalls", event.target.value)
+                        }
+                      />
+                    </div>
+                  </label>
+                </div>
+              </section>
 
-            <section className="group-card">
-              <h2>Platform Cost</h2>
-              <div className="field-grid">
+              <section className="group-card">
+                <h2>Platform Cost</h2>
+                <div className="field-grid">
                 <label className="field">
-                  <span>RocketLevel AI Plan</span>
+                  <span>AI Plan</span>
                   <div className="input-wrap input-wrap--select">
                     <select
                       value={inputs.aiPlan}
-                      onChange={(event) => updatePlan(event.target.value)}
-                    >
-                      {Object.entries(AI_PLANS).map(([key, plan]) => (
-                        <option key={key} value={key}>
-                          {plan.label} ({formatCurrency(plan.monthlyCost)})
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </label>
+                        onChange={(event) => updatePlan(event.target.value)}
+                      >
+                        {Object.entries(AI_PLANS).map(([key, plan]) => (
+                          <option key={key} value={key}>
+                            {plan.label} ({formatCurrency(plan.monthlyCost)})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </label>
 
                 <label className="field">
-                  <span>RocketLevel PBX Users</span>
+                  <span>PBX Users</span>
                   <div className="input-wrap">
                     <input
                       type="number"
-                      step={1}
-                      min={defaultAssumptions.pbxMinimumUsers}
-                      value={inputs.pbxUsers}
-                      onChange={(event) =>
+                        step={1}
+                        min={defaultAssumptions.pbxMinimumUsers}
+                        value={inputs.pbxUsers}
+                        onChange={(event) =>
                         updateNumberInput("pbxUsers", event.target.value)
                       }
                     />
-                    <em>{formatCurrency(defaultAssumptions.pbxSeatCost)}/user</em>
                   </div>
                 </label>
               </div>
               <p className="helper-copy">
-                PBX pricing is {formatCurrency(defaultAssumptions.pbxSeatCost)} per
-                user with a minimum of {defaultAssumptions.pbxMinimumUsers} users.
+                Billed at {formatCurrency(defaultAssumptions.pbxSeatCost)}/user with a{" "}
+                {defaultAssumptions.pbxMinimumUsers}-user minimum.
               </p>
             </section>
+
+              <section className="group-card">
+                <h2>Revenue + Labor</h2>
+                <div className="assumptions-grid">
+                  <AssumptionCard
+                    label="Average Job Value"
+                    value={formatCurrency(defaultAssumptions.averageJobValue)}
+                  />
+                  <AssumptionCard
+                    label="Labor Hours Saved"
+                    value={formatNumber(defaultAssumptions.laborHoursSaved)}
+                  />
+                  <AssumptionCard
+                    label="Hourly Wage"
+                    value={formatCurrency(defaultAssumptions.hourlyWage)}
+                  />
+                  <AssumptionCard
+                    label="Staffing Savings"
+                    value={formatCurrency(defaultAssumptions.staffingMonthlySavings)}
+                  />
+                </div>
+              </section>
+            </div>
           </div>
 
           <aside className="results-panel" id="impact">
-            <div className="result-card result-card--accent">
-              <span>Total Monthly Impact</span>
-              <strong>{formatCurrency(outputs.totalImpact)}</strong>
-            </div>
-
             <div className="result-card-grid">
               <ResultCard
                 label="Missed Calls Recovered"
@@ -224,77 +249,9 @@ export function App({ mode, config }: AppProps) {
                 value={formatCurrency(outputs.pbxPlanCost)}
               />
             </div>
-
           </aside>
+          </div>
         </section>
-
-        {!isEmbed ? (
-          <>
-            <section className="cta-band">
-              <p className="eyebrow">Scale Smarter</p>
-              <h2>See how RocketLevel can turn missed demand into measurable revenue.</h2>
-              <a className="site-cta site-cta--large" href="https://rocketlevel.com/">
-                Book Your Free Session
-              </a>
-            </section>
-
-            <footer className="site-footer" id="footer">
-              <div className="site-footer__grid">
-                <div>
-                  <a className="site-brand site-brand--footer" href="https://rocketlevel.com/">
-                    <span className="site-brand__mark">RL</span>
-                    <span className="site-brand__copy">
-                      <strong>RocketLevel</strong>
-                      <em>AI Growth Solutions</em>
-                    </span>
-                  </a>
-                  <ul className="footer-list footer-list--contact">
-                    <li>3535 Peachtree Road NE, Suite 320 Atlanta, GA 30326</li>
-                    <li>(877) 552-9418</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h3>Quick Links</h3>
-                  <ul className="footer-list">
-                    {primaryNav.map((item) => (
-                      <li key={item.label}>
-                        <a href={item.href}>{item.label}</a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3>Solutions</h3>
-                  <ul className="footer-list">
-                    {footerSolutions.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3>Get in Touch</h3>
-                  <p className="footer-copy">
-                    Smarter growth systems for local, multi-location, and franchise brands.
-                  </p>
-                  <a className="site-cta" href="https://rocketlevel.com/">
-                    Book Your Free Session
-                  </a>
-                </div>
-              </div>
-
-              <div className="site-footer__bottom">
-                <span>Copyright © 2026 RocketLevel. All rights reserved.</span>
-                <div className="site-footer__bottom-links">
-                  <a href="https://rocketlevel.com/">Privacy Policy</a>
-                  <a href="https://rocketlevel.com/">Terms & Conditions</a>
-                </div>
-              </div>
-            </footer>
-          </>
-        ) : null}
       </div>
     </main>
   );
@@ -311,5 +268,45 @@ function ResultCard({ label, value }: ResultCardProps) {
       <span>{label}</span>
       <strong>{value}</strong>
     </article>
+  );
+}
+
+type MetricPanelProps = {
+  label: string;
+  value: string;
+  detail: string;
+  tone?: "default" | "primary";
+};
+
+function MetricPanel({ label, value, detail, tone = "default" }: MetricPanelProps) {
+  return (
+    <article className={`metric-panel metric-panel--${tone}`}>
+      <span>{label}</span>
+      <strong>{value}</strong>
+      <p>{detail}</p>
+    </article>
+  );
+}
+
+type AssumptionCardProps = {
+  label: string;
+  value: string;
+};
+
+function AssumptionCard({ label, value }: AssumptionCardProps) {
+  return (
+    <article className="assumption-card">
+      <span>{label}</span>
+      <strong>{value}</strong>
+    </article>
+  );
+}
+
+function RocketLevelLogo() {
+  return (
+    <span className="rocketlevel-logo" aria-label="RocketLevel">
+      <span className="rocketlevel-logo__mark" />
+      <span className="rocketlevel-logo__word">ROCKETLEVEL</span>
+    </span>
   );
 }
