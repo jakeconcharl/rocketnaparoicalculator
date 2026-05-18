@@ -298,17 +298,6 @@ export function App({ mode, config }: AppProps) {
                 </div>
 
                 <div>
-                  <h3>Explore</h3>
-                  <ul className="footer-list">
-                    {primaryNav.slice(1).map((item) => (
-                      <li key={item.label}>
-                        <a href={item.href}>{item.label}</a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
                   <h3>Get in Touch</h3>
                   <p className="site-footer__copy">
                     Book a strategy session to map AI-assisted call handling to your revenue goals.

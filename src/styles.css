@@ -75,12 +75,12 @@ select {
 }
 
 .site-header__inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  min-height: 76px;
-  padding: 18px 30px;
+  gap: 16px;
+  min-height: 70px;
+  padding: 14px 24px;
   border-radius: 999px;
   background: rgba(16, 20, 28, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -94,30 +94,36 @@ select {
   display: inline-flex;
   align-items: center;
   gap: 0;
+  min-width: 0;
 }
 
 .rocketlevel-logo {
   display: block;
-  width: 370px;
+  width: 250px;
+  max-width: 100%;
   height: auto;
-  flex: 0 0 auto;
+  flex: 0 1 auto;
 }
 
 .site-nav {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
-  gap: 14px;
+  gap: 6px;
+  min-width: 0;
   color: var(--text-body);
 }
 
 .site-nav a {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
-  padding: 0 14px;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 9px;
   border-radius: 10px;
-  font-size: 0.98rem;
+  font-size: 0.88rem;
+  white-space: nowrap;
+  text-align: center;
   color: rgba(255, 255, 255, 0.92);
   transition:
     background-color 160ms ease,
@@ -142,8 +148,8 @@ select {
 
 .site-nav__dropdown > a::after {
   content: "▾";
-  margin-left: 6px;
-  font-size: 0.7rem;
+  margin-left: 5px;
+  font-size: 0.62rem;
   opacity: 0.8;
 }
 
@@ -192,21 +198,23 @@ select {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 54px;
-  padding: 0 34px;
+  min-height: 44px;
+  padding: 0 22px;
   border-radius: 999px;
   background: #ffffff;
   color: #1f73e0;
   font-weight: 700;
-  letter-spacing: 0.01em;
+  font-size: 0.88rem;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
+  white-space: nowrap;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.14);
 }
 
 .site-cta::after {
   content: "\2192";
-  margin-left: 10px;
-  font-size: 1.4rem;
+  margin-left: 8px;
+  font-size: 1.15rem;
   line-height: 1;
 }
 
@@ -475,7 +483,7 @@ strong {
 
 .site-footer__grid {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr;
+  grid-template-columns: 1.2fr 0.9fr 1fr;
   gap: 18px;
 }
 
@@ -543,15 +551,25 @@ strong {
 
 @media (max-width: 1260px) {
   .site-header__inner {
-    padding: 18px 22px;
+    padding: 14px 20px;
   }
 
   .rocketlevel-logo {
-    width: 300px;
+    width: 220px;
   }
 
   .site-nav {
-    gap: 8px;
+    gap: 2px;
+  }
+
+  .site-nav a {
+    padding: 0 8px;
+    font-size: 0.82rem;
+  }
+
+  .site-cta {
+    padding: 0 18px;
+    font-size: 0.82rem;
   }
 
   .dashboard-layout,
@@ -568,12 +586,12 @@ strong {
   .site-header__inner {
     min-height: auto;
     padding: 18px 20px;
-    flex-direction: column;
+    grid-template-columns: 1fr;
     border-radius: 30px;
   }
 
   .rocketlevel-logo {
-    width: min(300px, 100%);
+    width: min(250px, 100%);
   }
 
   .site-nav {
