@@ -141,31 +141,65 @@ export function App({ mode, config }: AppProps) {
                 <div className="field-stack">
                   <label className="field">
                     <span>Legitimate Calls</span>
-                    <div className="input-wrap">
+                    <div className="field-control">
+                      <div className="input-wrap">
+                        <input
+                          type="number"
+                          step={100}
+                          min={0}
+                          value={inputs.legitimateCalls}
+                          onChange={(event) =>
+                            updateNumberInput("legitimateCalls", event.target.value)
+                          }
+                        />
+                      </div>
                       <input
-                        type="number"
-                        step={100}
+                        className="range-slider"
+                        type="range"
                         min={0}
+                        max={10000}
+                        step={100}
                         value={inputs.legitimateCalls}
                         onChange={(event) =>
                           updateNumberInput("legitimateCalls", event.target.value)
                         }
                       />
+                      <div className="range-scale">
+                        <span>0</span>
+                        <span>10,000</span>
+                      </div>
                     </div>
                   </label>
 
                   <label className="field">
                     <span>Filtered Spam Calls</span>
-                    <div className="input-wrap">
+                    <div className="field-control">
+                      <div className="input-wrap">
+                        <input
+                          type="number"
+                          step={50}
+                          min={0}
+                          value={inputs.filteredSpamCalls}
+                          onChange={(event) =>
+                            updateNumberInput("filteredSpamCalls", event.target.value)
+                          }
+                        />
+                      </div>
                       <input
-                        type="number"
-                        step={50}
+                        className="range-slider"
+                        type="range"
                         min={0}
+                        max={5000}
+                        step={50}
                         value={inputs.filteredSpamCalls}
                         onChange={(event) =>
                           updateNumberInput("filteredSpamCalls", event.target.value)
                         }
                       />
+                      <div className="range-scale">
+                        <span>0</span>
+                        <span>5,000</span>
+                      </div>
                     </div>
                   </label>
                 </div>
