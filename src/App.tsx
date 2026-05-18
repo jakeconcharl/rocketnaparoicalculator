@@ -85,6 +85,7 @@ export function App({ mode, config }: AppProps) {
             </a>
 
             <nav className="site-nav" aria-label="Primary navigation">
+              <a href="https://rocketlevel.com/">Home</a>
               <div className="site-nav__dropdown">
                 <a href="https://rocketlevel.com/solutions/" aria-haspopup="true">
                   Solutions
@@ -97,7 +98,7 @@ export function App({ mode, config }: AppProps) {
                   ))}
                 </div>
               </div>
-              {primaryNav.map((item) => (
+              {primaryNav.slice(1).map((item) => (
                 <a key={item.label} href={item.href}>
                   {item.label}
                 </a>
