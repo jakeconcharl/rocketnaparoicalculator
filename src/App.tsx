@@ -23,8 +23,16 @@ const primaryNav = [
   { label: "Home", href: "https://rocketlevel.com/" },
   { label: "Solutions", href: "#calculator" },
   { label: "Technology", href: "#impact" },
-  { label: "Who We Help", href: "#assumptions" },
+  { label: "Who We Help", href: "#footer" },
   { label: "Company", href: "#footer" }
+];
+
+const footerSolutions = [
+  "Digital Marketing",
+  "Outbound Sales",
+  "Inbound Sales",
+  "Managed Services",
+  "Commercial Systems"
 ];
 
 export function App({ mode, config }: AppProps) {
@@ -181,7 +189,7 @@ export function App({ mode, config }: AppProps) {
 
               <section className="group-card">
                 <h2>Revenue + Labor</h2>
-                <div className="assumptions-grid">
+                <div className="assumptions-stack">
                   <AssumptionCard
                     label="Revenue Recovered"
                     value={formatCurrency(outputs.revenueRecovered)}
@@ -199,11 +207,6 @@ export function App({ mode, config }: AppProps) {
                     value={formatCurrency(outputs.totalImpact)}
                   />
                 </div>
-                <p className="helper-copy">
-                  Based on the Notion model: recovered jobs x {formatCurrency(defaultAssumptions.averageJobValue)}
-                  , plus {formatNumber(defaultAssumptions.laborHoursSaved)} labor hours at{" "}
-                  {formatCurrency(defaultAssumptions.hourlyWage)} and fixed staffing savings.
-                </p>
               </section>
             </div>
           </div>
@@ -230,6 +233,73 @@ export function App({ mode, config }: AppProps) {
           </aside>
           </div>
         </section>
+
+        {!isEmbed ? (
+          <>
+            <section className="cta-band">
+              <div>
+                <p className="cta-band__eyebrow">Scale Smarter</p>
+                <h2>See how RocketLevel can turn missed demand into measurable revenue.</h2>
+              </div>
+              <a className="site-cta" href="https://rocketlevel.com/">
+                Book Your Free Session
+              </a>
+            </section>
+
+            <footer className="site-footer" id="footer">
+              <div className="site-footer__grid">
+                <div>
+                  <img className="rocketlevel-logo rocketlevel-logo--footer" src={rocketLevelLogo} alt="RocketLevel" />
+                  <p className="site-footer__copy">
+                    AI growth systems for local, franchise, and multi-location brands.
+                  </p>
+                  <ul className="footer-list footer-list--contact">
+                    <li>3535 Peachtree Road NE, Suite 320 Atlanta, GA 30326</li>
+                    <li>(877) 552-9418</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h3>Quick Links</h3>
+                  <ul className="footer-list">
+                    {primaryNav.map((item) => (
+                      <li key={item.label}>
+                        <a href={item.href}>{item.label}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <h3>Solutions</h3>
+                  <ul className="footer-list">
+                    {footerSolutions.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <h3>Get in Touch</h3>
+                  <p className="site-footer__copy">
+                    Book a strategy session to map AI-assisted call handling to your revenue goals.
+                  </p>
+                  <a className="site-cta" href="https://rocketlevel.com/">
+                    Request Demo
+                  </a>
+                </div>
+              </div>
+
+              <div className="site-footer__bottom">
+                <span>Copyright © 2026 RocketLevel. All rights reserved.</span>
+                <div className="site-footer__bottom-links">
+                  <a href="https://rocketlevel.com/">Privacy Policy</a>
+                  <a href="https://rocketlevel.com/">Terms & Conditions</a>
+                </div>
+              </div>
+            </footer>
+          </>
+        ) : null}
       </div>
     </main>
   );
