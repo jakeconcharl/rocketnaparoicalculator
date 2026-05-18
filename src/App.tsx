@@ -98,11 +98,7 @@ export function App({ mode, config }: AppProps) {
                 </div>
               </div>
               {primaryNav.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  aria-current={item.label === "Testimonials" ? "page" : undefined}
-                >
+                <a key={item.label} href={item.href}>
                   {item.label}
                 </a>
               ))}

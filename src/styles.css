@@ -137,11 +137,6 @@ select {
   outline: none;
 }
 
-.site-nav a[aria-current="page"] {
-  background: #1767e8;
-  color: #ffffff;
-}
-
 .site-nav__dropdown {
   position: relative;
 }
@@ -435,7 +430,22 @@ strong {
 }
 
 .result-card {
-  min-height: 88px;
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.result-card span {
+  margin-bottom: 12px;
+}
+
+.result-card strong {
+  margin-top: 0;
+  font-size: 2rem;
+  line-height: 1.05;
 }
 
 .cta-band {
