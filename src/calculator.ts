@@ -17,9 +17,10 @@ export type CalculatorAssumptions = {
   missedCallsRecoveredRate: number;
   jobLossRate: number;
   averageJobValue: number;
-  laborHoursSaved: number;
+  laborMinutesSavedPerSpamCall: number;
   hourlyWage: number;
-  staffingMonthlySavings: number;
+  monthlyHoursPerStaffRole: number;
+  staffingMonthlyRoleCost: number;
   pbxSeatCost: number;
   pbxMinimumUsers: number;
 };
@@ -28,7 +29,9 @@ export type CalculatorOutputs = {
   missedCallsRecovered: number;
   estimatedJobsLost: number;
   revenueRecovered: number;
+  laborHoursSaved: number;
   laborSavings: number;
+  staffingLaborRequirements: number;
   staffingLaborSavings: number;
   totalImpact: number;
   aiPlanCost: number;
@@ -50,10 +53,11 @@ export const defaultAssumptions: CalculatorAssumptions = {
   missedCallsRecoveredRate: 30,
   jobLossRate: 30,
   averageJobValue: 100,
-  laborHoursSaved: 25,
+  laborMinutesSavedPerSpamCall: 1.5,
   hourlyWage: 18,
-  staffingMonthlySavings: 378.79,
-  pbxSeatCost: 29,
+  monthlyHoursPerStaffRole: 165,
+  staffingMonthlyRoleCost: 2500,
+  pbxSeatCost: 29.99,
   pbxMinimumUsers: 5
 };
 
@@ -76,10 +80,14 @@ export function calculateRoi(
     (assumptions.missedCallsRecoveredRate / 100);
   const estimatedJobsLost =
     missedCallsRecovered * (assumptions.jobLossRate / 100);
-  const revenueRecovered =
-    estimatedJobsLost * assumptions.averageJobValue;
-  const laborSavings = assumptions.laborHoursSaved * assumptions.hourlyWage;
-  const staffingLaborSavings = assumptions.staffingMonthlySavings;
+  const revenueRecovered = estimatedJobsLost * assumptions.averageJobValue;
+  const laborHoursSaved =
+    (inputs.filteredSpamCalls * assumptions.laborMinutesSavedPerSpamCall) / 60;
+  const laborSavings = laborHoursSaved * assumptions.hourlyWage;
+  const staffingLaborRequirements =
+    laborHoursSaved / assumptions.monthlyHoursPerStaffRole;
+  const staffingLaborSavings =
+    staffingLaborRequirements * assumptions.staffingMonthlyRoleCost;
   const totalImpact =
     revenueRecovered + laborSavings + staffingLaborSavings;
   const monthlySoftwareCost = aiPlanCost + pbxPlanCost;
@@ -91,7 +99,9 @@ export function calculateRoi(
     missedCallsRecovered: roundCurrency(missedCallsRecovered),
     estimatedJobsLost: roundCurrency(estimatedJobsLost),
     revenueRecovered: roundCurrency(revenueRecovered),
+    laborHoursSaved: roundCurrency(laborHoursSaved),
     laborSavings: roundCurrency(laborSavings),
+    staffingLaborRequirements: roundCurrency(staffingLaborRequirements),
     staffingLaborSavings: roundCurrency(staffingLaborSavings),
     totalImpact: roundCurrency(totalImpact),
     aiPlanCost: roundCurrency(aiPlanCost),
