@@ -19,21 +19,36 @@ type AppProps = {
   };
 };
 
+const solutionsNav = [
+  {
+    label: "Digital Marketing",
+    href: "https://rocketlevel.com/solutions/digital-marketing/"
+  },
+  {
+    label: "Outbound Sales",
+    href: "https://rocketlevel.com/solutions/outbound-sales/"
+  },
+  {
+    label: "Inbound Sales",
+    href: "https://rocketlevel.com/solutions/inbound-sales/"
+  },
+  {
+    label: "Managed Services",
+    href: "https://rocketlevel.com/solutions/managed-services/"
+  },
+  {
+    label: "Commercial Systems",
+    href: "https://rocketlevel.com/commercial-systems/"
+  }
+] as const;
+
 const primaryNav = [
   { label: "Home", href: "https://rocketlevel.com/" },
-  { label: "Solutions", href: "#calculator" },
-  { label: "Technology", href: "#impact" },
-  { label: "Who We Help", href: "#footer" },
-  { label: "Company", href: "#footer" }
-];
-
-const footerSolutions = [
-  "Digital Marketing",
-  "Outbound Sales",
-  "Inbound Sales",
-  "Managed Services",
-  "Commercial Systems"
-];
+  { label: "Technology", href: "https://rocketlevel.com/technology/" },
+  { label: "Who We Help", href: "https://rocketlevel.com/who-we-help/" },
+  { label: "Testimonials", href: "https://rocketlevel.com/testimonials/" },
+  { label: "Company", href: "https://rocketlevel.com/company/" }
+] as const;
 
 export function App({ mode, config }: AppProps) {
   const [inputs, setInputs] = useState<CalculatorInputs>(defaultInputs);
@@ -67,21 +82,33 @@ export function App({ mode, config }: AppProps) {
           <div className="site-header__inner">
             <a className="site-brand" href="https://rocketlevel.com/">
               <img className="rocketlevel-logo" src={rocketLevelLogo} alt="RocketLevel" />
-              <span className="site-brand__copy">
-                <strong>NAPA ROI Calculator</strong>
-                <em>Revenue recovery dashboard</em>
-              </span>
             </a>
 
             <nav className="site-nav" aria-label="Primary navigation">
+              <div className="site-nav__dropdown">
+                <a href="https://rocketlevel.com/solutions/" aria-haspopup="true">
+                  Solutions
+                </a>
+                <div className="site-nav__menu">
+                  {solutionsNav.map((item) => (
+                    <a key={item.label} href={item.href}>
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
               {primaryNav.map((item) => (
-                <a key={item.label} href={item.href}>
+                <a
+                  key={item.label}
+                  href={item.href}
+                  aria-current={item.label === "Testimonials" ? "page" : undefined}
+                >
                   {item.label}
                 </a>
               ))}
             </nav>
 
-            <a className="site-cta" href="https://rocketlevel.com/">
+            <a className="site-cta" href="https://rocketlevel.com/request-a-demo/">
               Request Demo
             </a>
           </div>
@@ -241,7 +268,7 @@ export function App({ mode, config }: AppProps) {
                 <p className="cta-band__eyebrow">Scale Smarter</p>
                 <h2>See how RocketLevel can turn missed demand into measurable revenue.</h2>
               </div>
-              <a className="site-cta" href="https://rocketlevel.com/">
+              <a className="site-cta" href="https://rocketlevel.com/request-a-demo/">
                 Book Your Free Session
               </a>
             </section>
@@ -260,9 +287,9 @@ export function App({ mode, config }: AppProps) {
                 </div>
 
                 <div>
-                  <h3>Quick Links</h3>
+                  <h3>Solutions</h3>
                   <ul className="footer-list">
-                    {primaryNav.map((item) => (
+                    {solutionsNav.map((item) => (
                       <li key={item.label}>
                         <a href={item.href}>{item.label}</a>
                       </li>
@@ -271,10 +298,12 @@ export function App({ mode, config }: AppProps) {
                 </div>
 
                 <div>
-                  <h3>Solutions</h3>
+                  <h3>Explore</h3>
                   <ul className="footer-list">
-                    {footerSolutions.map((item) => (
-                      <li key={item}>{item}</li>
+                    {primaryNav.slice(1).map((item) => (
+                      <li key={item.label}>
+                        <a href={item.href}>{item.label}</a>
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -284,7 +313,7 @@ export function App({ mode, config }: AppProps) {
                   <p className="site-footer__copy">
                     Book a strategy session to map AI-assisted call handling to your revenue goals.
                   </p>
-                  <a className="site-cta" href="https://rocketlevel.com/">
+                  <a className="site-cta" href="https://rocketlevel.com/request-a-demo/">
                     Request Demo
                   </a>
                 </div>
@@ -293,8 +322,8 @@ export function App({ mode, config }: AppProps) {
               <div className="site-footer__bottom">
                 <span>Copyright © 2026 RocketLevel. All rights reserved.</span>
                 <div className="site-footer__bottom-links">
-                  <a href="https://rocketlevel.com/">Privacy Policy</a>
-                  <a href="https://rocketlevel.com/">Terms & Conditions</a>
+                  <a href="https://rocketlevel.com/company/">Company</a>
+                  <a href="https://rocketlevel.com/request-a-demo/">Request a Demo</a>
                 </div>
               </div>
             </footer>
