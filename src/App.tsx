@@ -179,7 +179,7 @@ export function App({ mode, config }: AppProps) {
                         <input
                           type="number"
                           step={1}
-                          min={0}
+                          min={32}
                           max={100}
                           value={inputs.spamCallPercentage}
                           onChange={(event) =>
@@ -190,7 +190,7 @@ export function App({ mode, config }: AppProps) {
                       <input
                         className="range-slider"
                         type="range"
-                        min={0}
+                        min={32}
                         max={100}
                         step={1}
                         value={inputs.spamCallPercentage}
@@ -199,7 +199,7 @@ export function App({ mode, config }: AppProps) {
                         }
                       />
                       <div className="range-scale">
-                        <span>0%</span>
+                        <span>32%</span>
                         <span>100%</span>
                       </div>
                     </div>
