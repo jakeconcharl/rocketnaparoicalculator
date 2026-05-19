@@ -8,7 +8,7 @@ export type AiPlanKey = keyof typeof AI_PLANS;
 
 export type CalculatorInputs = {
   legitimateCalls: number;
-  filteredSpamCalls: number;
+  spamCallPercentage: number;
   aiPlan: AiPlanKey;
   pbxUsers: number;
 };
@@ -26,6 +26,7 @@ export type CalculatorAssumptions = {
 };
 
 export type CalculatorOutputs = {
+  filteredSpamCalls: number;
   missedCallsRecovered: number;
   estimatedJobsLost: number;
   revenueRecovered: number;
@@ -43,8 +44,8 @@ export type CalculatorOutputs = {
 };
 
 export const defaultInputs: CalculatorInputs = {
-  legitimateCalls: 6000,
-  filteredSpamCalls: 1000,
+  legitimateCalls: 500,
+  spamCallPercentage: 32,
   aiPlan: "growth",
   pbxUsers: 5
 };
@@ -70,19 +71,21 @@ export function calculateRoi(
   assumptions: CalculatorAssumptions = defaultAssumptions
 ): CalculatorOutputs {
   const aiPlanCost = AI_PLANS[inputs.aiPlan].monthlyCost;
+  const filteredSpamCalls =
+    inputs.legitimateCalls * (inputs.spamCallPercentage / 100);
   const billablePbxUsers = Math.max(
     assumptions.pbxMinimumUsers,
     Math.round(inputs.pbxUsers)
   );
   const pbxPlanCost = billablePbxUsers * assumptions.pbxSeatCost;
   const missedCallsRecovered =
-    (inputs.legitimateCalls + inputs.filteredSpamCalls) *
+    (inputs.legitimateCalls + filteredSpamCalls) *
     (assumptions.missedCallsRecoveredRate / 100);
   const estimatedJobsLost =
     missedCallsRecovered * (assumptions.jobLossRate / 100);
   const revenueRecovered = estimatedJobsLost * assumptions.averageJobValue;
   const laborHoursSaved =
-    (inputs.filteredSpamCalls * assumptions.laborMinutesSavedPerSpamCall) / 60;
+    (filteredSpamCalls * assumptions.laborMinutesSavedPerSpamCall) / 60;
   const laborSavings = laborHoursSaved * assumptions.hourlyWage;
   const staffingLaborRequirements =
     laborHoursSaved / assumptions.monthlyHoursPerStaffRole;
@@ -96,6 +99,7 @@ export function calculateRoi(
     monthlySoftwareCost > 0 ? totalImpact / monthlySoftwareCost : 0;
 
   return {
+    filteredSpamCalls: roundCurrency(filteredSpamCalls),
     missedCallsRecovered: roundCurrency(missedCallsRecovered),
     estimatedJobsLost: roundCurrency(estimatedJobsLost),
     revenueRecovered: roundCurrency(revenueRecovered),

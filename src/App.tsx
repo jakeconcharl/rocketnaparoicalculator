@@ -172,16 +172,18 @@ export function App({ mode, config }: AppProps) {
                   </label>
 
                   <label className="field">
-                    <span>Filtered Spam Calls</span>
+                    <span>Spam Calls</span>
                     <div className="field-control">
                       <div className="input-wrap">
+                        <em>%</em>
                         <input
                           type="number"
-                          step={50}
+                          step={1}
                           min={0}
-                          value={inputs.filteredSpamCalls}
+                          max={100}
+                          value={inputs.spamCallPercentage}
                           onChange={(event) =>
-                            updateNumberInput("filteredSpamCalls", event.target.value)
+                            updateNumberInput("spamCallPercentage", event.target.value)
                           }
                         />
                       </div>
@@ -189,16 +191,16 @@ export function App({ mode, config }: AppProps) {
                         className="range-slider"
                         type="range"
                         min={0}
-                        max={5000}
-                        step={50}
-                        value={inputs.filteredSpamCalls}
+                        max={100}
+                        step={1}
+                        value={inputs.spamCallPercentage}
                         onChange={(event) =>
-                          updateNumberInput("filteredSpamCalls", event.target.value)
+                          updateNumberInput("spamCallPercentage", event.target.value)
                         }
                       />
                       <div className="range-scale">
-                        <span>0</span>
-                        <span>5,000</span>
+                        <span>0%</span>
+                        <span>100%</span>
                       </div>
                     </div>
                   </label>

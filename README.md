@@ -73,12 +73,13 @@ If you want stronger style isolation, embed the standalone page inside an iframe
 The current model now exposes only these editable inputs:
 
 - `Legitimate Calls`
-- `Filtered Spam Calls`
+- `Spam Calls (%)`
 - `RocketLevel AI Plan` with `Growth ($499)`, `Scale ($800)`, and `Pro ($1,200)`
 - `RocketLevel PBX Users` at `$29/user` with a minimum of `5` users
 
 The rest of the model continues to mirror the public Notion example values:
 
+- `Filtered Spam Calls = Legitimate Calls * Spam Calls (%)`
 - `Missed Calls Recovered = (Legitimate Calls + Filtered Spam Calls) * Recovered Rate`
 - `Estimated Jobs Saved = Missed Calls Recovered * Job Loss Rate`
 - `Revenue Recovered = Estimated Jobs Saved * Average Job Value`
